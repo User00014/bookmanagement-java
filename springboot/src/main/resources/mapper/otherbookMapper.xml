@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.otherbookMapper">
+
+    <select id="selectAll" resultType="com.example.entity.otherbook">
+        select `otherbook`.*, `buy_otherbook_records`.`orderno` as aSaletableno, `txtbook`.`trackno` as atxtbookno from `otherbook`
+		left join `buy_otherbook_records` on `otherbook`.`buy_otherbook_records_id` = `buy_otherbook_records`.id
+		left join `txtbook` on `otherbook`.`txtbook_id` = `txtbook`.id
+
+        <where>
+			<if test="otherbookno != null and otherbookno != ''">
+				and `otherbook`.`otherbookno` = #{otherbookno}
+			</if>
+			<if test="otherbookname != null and otherbookname != ''">
+				and `otherbook`.`otherbookname` like concat ('%', #{otherbookname}, '%')
+			</if>
+			<if test="releasedate != null and releasedate != ''">
+				and `otherbook`.`releasedate` like concat ('%', #{releasedate}, '%')
+			</if>
+			<if test="atxtbookno != null and atxtbookno != ''">
+				and `txtbook`.`trackno` like concat ('%', #{atxtbookno}, '%')
+			</if>
+
+        </where>
+    </select>
+
+    <select id="selectById" resultType="com.example.entity.otherbook">
+        select * from otherbook where id = #{id}
+    </select>
+
+    <delete id="deleteById">
+        delete from otherbook where  id = #{id}
+    </delete>
+
+</mapper>

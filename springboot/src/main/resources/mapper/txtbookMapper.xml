@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.txtbookMapper">
+
+    <select id="selectAll" resultType="com.example.entity.txtbook">
+        select `txtbook`.*, `writer`.`username` as owneraccount from `txtbook`
+		left join `writer` on `txtbook`.`writer_id` = `writer`.id
+
+        <where>
+			<if test="trackno != null and trackno != ''">
+				and `txtbook`.`trackno` = #{trackno}
+			</if>
+			<if test="trackname != null and trackname != ''">
+				and `txtbook`.`trackname` like concat ('%', #{trackname}, '%')
+			</if>
+			<if test="writerId != null">
+				and `txtbook`.`writer_id` = #{writerId}
+			</if>
+
+        </where>
+    </select>
+
+    <select id="selectById" resultType="com.example.entity.txtbook">
+        select * from txtbook where id = #{id}
+    </select>
+
+    <delete id="deleteById">
+        delete from txtbook where  id = #{id}
+    </delete>
+
+</mapper>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.borrowMapper">
+
+    <select id="selectAll" resultType="com.example.entity.borrow">
+        select `borrow`.*, `txtbook`.`trackno` as ftxtbookno from `borrow`
+		left join `txtbook` on `borrow`.`txtbook_id` = `txtbook`.id
+
+        <where>
+			<if test="collectionno != null and collectionno != ''">
+				and `borrow`.`collectionno` = #{collectionno}
+			</if>
+
+        </where>
+    </select>
+
+    <select id="selectById" resultType="com.example.entity.borrow">
+        select * from borrow where id = #{id}
+    </select>
+
+    <delete id="deleteById">
+        delete from borrow where  id = #{id}
+    </delete>
+
+</mapper>
